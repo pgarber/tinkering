@@ -8,13 +8,17 @@ import tempfile
 import time
 from optparse import OptionParser
 
-def create_yum_repo(label, repo_url, repo_dir=None):
+def create_yum_repo(label, repo_url, repo_dir=None, key=None, cert=None, ca=None, verify=False):
     repo = yum.yumRepo.YumRepository(label)
     repo.basecachedir = repo_dir
     repo.base_persistdir = repo_dir
     repo.cache = 0
     repo.metadata_expire = 0
     repo.baseurl = [repo_url]
+    repo.sslcacert = ca
+    repo.sslclientcert = cert
+    repo.sslclientkey = key
+    repo.sslverify = verify
     repo.baseurlSetup()
     return repo
 
@@ -35,6 +39,10 @@ if __name__ == "__main__":
     parser.add_option("--url", action="store", help="URL of source repository", default=None)
     parser.add_option("--dir", action="store", help="Directory to store metadata in", default="./output")
     parser.add_option("--label", action="store", help="Label", default="yum_repo_metadata_%s" % (datetime.datetime.now().strftime("%d_%m_%y_%H%M_%S")))
+    parser.add_option("--ca", action="store", help="Optional ssl CA Certificate", default=None)
+    parser.add_option("--cert", action="store", help="Optional ssl client certificate", default=None)
+    parser.add_option("--key", action="store", help="Optional ssl client key", default=None)
+    parser.add_option("--sslverify", action="store_true", help="If set will force SSL connections to check CA matches (Defaults to False)", default=False)
     (opts, args) = parser.parse_args()
     
     label = opts.label
@@ -46,7 +54,7 @@ if __name__ == "__main__":
 
     if not os.path.exists(repo_dir):
         os.makedirs(repo_dir)
-    repo = create_yum_repo(label, repo_url, repo_dir)
+    repo = create_yum_repo(label, repo_url, repo_dir, cert=opts.cert, key=opts.key, ca=opts.ca, verify=opts.sslverify)
     print "Begin download of metadata from: %s" % (repo_url)
     a = time.time()
     process_metadata(repo)
