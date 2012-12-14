@@ -27,10 +27,9 @@ def fix_xml(blob):
     # Remove all but last closing pkglist tag
     if len(closing_pkglist_indexes) > 1:
         # We want to form a new list ignoring the last element which is the closing tag we want to keep
-        sub_set_tag_indexes = closing_pkglist_indexes[0:(len(closing_pkglist_indexes)-1)]
         len_closing_tag = len("</pkglist>")
         start_index = 0
-        for end_index in sub_set_tag_indexes:
+        for end_index in closing_pkglist_indexes[:-1]:
             fixed_blob += blob[start_index:end_index]
             start_index = end_index+len_closing_tag
         fixed_blob += blob[start_index:]
