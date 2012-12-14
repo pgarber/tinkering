@@ -66,3 +66,9 @@ if __name__ == "__main__":
     print "%s total time" % (c - a)
     print "YUM Repository Metadata for %s has been saved at: %s" % (repo_url, os.path.join(repo_dir, label))
     print "%s packages are available" % (len(packages))
+
+    sample_pkg = packages[0]
+    print "sample_pkg.basepath = %s" % (sample_pkg.basepath)
+    print "sample_pkg.xml_dump_primary_metadata = %s" % (sample_pkg.xml_dump_primary_metadata())
+
+
