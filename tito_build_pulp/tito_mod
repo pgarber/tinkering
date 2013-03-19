@@ -1,0 +1,55 @@
+#!/usr/bin/python
+#
+# Copyright (c) 2008,2009 Red Hat, Inc.
+#
+# This software is licensed to you under the GNU General Public License,
+# version 2 (GPLv2). There is NO WARRANTY for this software, express or
+# implied, including the implied warranties of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. You should have received a copy of GPLv2
+# along with this software; if not, see
+# http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
+#
+# Red Hat trademarks are not licensed under GPLv2. No permission is
+# granted to use or replicate Red Hat trademarks that are incorporated
+# in this software or its documentation.
+#
+
+import os
+import sys
+
+from tito.cli import CLI
+from tito.builder import Builder
+
+from tito.common import *
+from tito.release import *
+
+def _setup_test_specfile(self):
+        build_id = self.args.get('build')
+        if not build_id:
+            commit_count = self.commit_count
+            commit_id = self.git_commit_id[:7]
+        else:
+            commit_count = build_id
+            commit_id = os.getlogin()
+
+        setup_specfile_script = get_script_path("test-setup-specfile.pl")
+        cmd = "%s %s %s %s %s-%s %s" % \
+                (
+                    setup_specfile_script,
+                    self.spec_file,
+                    commit_id,
+                    commit_count,
+                    self.project_name,
+                    self.display_version,
+                    self.tgz_filename,
+                )
+        run_command(cmd)
+        self.ran_setup_test_specfile = True
+
+Builder._setup_test_specfile = _setup_test_specfile
+
+if __name__ == "__main__":
+    try:
+        CLI().main(sys.argv[1:])
+    except KeyboardInterrupt:
+        pass
