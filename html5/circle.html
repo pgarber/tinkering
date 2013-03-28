@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style type="text/css" media="screen">
+      #myCanvas { 
+        background:url(chart_overlay.png) no-repeat;
+      }
+      #myPanel {
+        background:url(chart_overlay.png) no-repeat;
+        width: 118px;
+        height: 130px;
+      }
+    </style>
+    <script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery.flot.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery.flot.pie.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <label>PieChart</label>
+    <div id="myPanel"></div>
+    <br />
+    <label>CanvasDraw</label>
+    <br />
+    <canvas id="myCanvas" width="118" height="130"></canvas>
+    <div id="button_panel">
+      <button type="button" id="green">Green</button> 
+      <button type="button" id="yellow">Yellow</button> 
+      <button type="button" id="red">Red</button>
+    </div> 
+    <script>
+      var color_green = "#9ccc50"
+      var color_red = "#e13831"
+      var color_yellow = "#f0e960"
+
+      function drawCircle(color) {
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+        var centerX = canvas.width / 2;
+        var centerY = canvas.height / 2;
+        var radius = 56;
+
+        context.beginPath();
+        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+        context.fillStyle = color;
+        context.fill();
+        context.lineWidth = 1;
+        context.strokeStyle = color;
+        context.stroke();
+      }
+
+      function pieChart(color_choice) {
+        //Following approach Katello/SAM use for rendering colored 'ball' for dashboard
+        //https://github.com/Katello/katello/blob/master/src/app/views/dashboard/_subscriptions.haml
+        //https://github.com/Katello/katello/blob/master/src/app/stylesheets/sections/dashboard.scss
+        //https://github.com/Katello/katello/blob/master/src/public/javascripts/dashboard.js#L17
+        var plot_data = [{data:1, color:color_choice}];
+         $.plot($("#myPanel"), plot_data, {
+                series: {
+                    pie:{
+                        show: true,
+                        label: {
+                            show: false
+                        }
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            });
+      }
+      function draw(color_choice) {
+        pieChart(color_choice);
+        drawCircle(color_choice);
+      }
+
+      $(document).ready(function() {
+        draw(color_green);
+        $("button").click(function(){
+          switch(this.id) {
+            case "red":
+              draw(color_red);
+              break;
+            case "green":
+              draw(color_green);
+              break;
+            case "yellow":
+              draw(color_yellow);
+              break;
+          };
+        });
+      });
+    </script>
+  </body>
+</html>
