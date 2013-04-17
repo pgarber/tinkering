@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html>
+  	<head>
+    	<style type="text/css" media="screen">
+    		html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,code,del,dfn,em,img,q,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,dialog,figure,footer,header,hgroup,nav,section {
+    				margin:0;
+    				padding:0;
+    				border:0;
+    				font-weight:inherit;
+    				font-style:inherit;
+    				font-size:100%;
+    				vertical-align:baseline
+    			}
+    		div,p,span,a,td,table,img,form,input {
+    			font-family:Helvetica,Arial
+    		}
+    		input[type="submit"] {
+    			border:none;
+    			outline:none;
+    			font-weight:bold;
+    			background:url(primary-nav-bg-hover.png) repeat-x;
+    			color:#FFF;
+    			padding:1px 3px 2px 3px
+    		}
+			#login-pre a{
+				position:absolute;
+				font-weight:bold;
+				z-index:8;
+				margin: 0px 811px;
+				/* margin:-15px 811px; */
+				top:0;
+				text-align:center;
+				font-size:10px;
+				color:#FFF;
+				text-decoration:none;
+				text-transform:uppercase;
+				display:block;
+				padding-top:6.5px;
+				width:101px;
+				height:28px;
+				background:url(login-pre-bg.png) no-repeat;
+				.background-image:url(login-pre-bg.png);
+				.background-repeat:no-repeat;
+				cursor:pointer
+			}
+			#login-pre a:hover {
+				margin-top: 5px
+			}
+			#login-active {
+				position:absolute;
+				z-index:5100;
+				margin:-42px 0 0 733px;
+				padding:5px 0 10px 15px;
+				top:auto;
+				width:219px;
+				height:157px;
+				background:url(login-active-bg.png) no-repeat;
+				.background-image:url(login-active-bg.png);
+				.background-repeat:no-repeat;
+				color:#FFF
+			}
+			#login-active input {
+				border:none;
+				outline:none;
+				background:transparent;
+				color:#FFF;
+				padding:2px 3px 2px 132px;
+				.margin-top:0;
+				.padding-left:108px
+			}
+			#login-active h1 {
+				text-transform:uppercase;
+				color:#FFF;
+				font-size:22.5px;
+				margin:-5px 0 -5px 0;
+				padding-bottom:5px;
+				.margin-bottom:0
+			}
+			.loginP {
+				color:#fff;
+				font-size:22.5px;
+				margin:-5px 0;
+				padding-bottom:5px
+			}
+			#login-active p.loginFormHeading {
+				color:#fff;
+				font-family:Overpass,Helvetica,Arial;
+				font-size:22.5px;
+				font-weight:bold;
+				line-height:1.1em;
+				margin:-5px 0;
+				padding-bottom:5px;
+				text-transform:uppercase
+			}
+			#login-active a.close-login {
+				position:absolute;
+				text-transform:uppercase;
+				padding-left:57px;
+				padding-top:8px
+			}
+			#login-active span {
+				position:absolute;
+				text-transform:uppercase;
+				left:150px;
+				font-weight:bold;
+				font-size:15px
+			}
+			#login-active a.close-login:hover {
+				text-decoration:none
+			}
+			#login-active input[type="text"],#login-active input[type="password"] {
+				background:#FFF;
+				border:none;
+				color:#999;
+				padding:2px 3px 2px 3px;
+				margin-bottom:3px;
+				width:198px
+			}
+			#login-active input {
+				background:none repeat scroll 0 0 transparent;
+				border:medium none;
+				color:#fff;
+				outline:medium none;
+				padding:0 0 0 41px;
+				.padding-left:105px;
+				.margin-top:0;
+				.margin-bottom:0
+			}
+			#login-active p.first {
+				margin-top:5px
+			}
+			#login-active p {
+				margin-top:3px;
+				.margin-top:0
+			}
+			#login-active a {
+				color:#FFF;
+				text-decoration: none;
+				font-size: 11px;
+			}
+			#forgotPasswdWrapper {
+				float:left;
+				width:95px;
+				word-wrap:break-word;
+			}
+			#submitBtnWrapper {
+				float:left;
+			}
+    	</style>
+    	<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			// Login Box - Pre Active State
+			function activateLogin() {
+				$("#login-active").animate( {
+					marginTop: '0px'
+				}, 'slow');
+			}
+
+			function deactivateLogin() {
+				$("#login-active").animate( {
+					marginTop: '-193px'
+				}, 'slow');
+			}
+
+			$(document).ready(function() {
+				$('#login-active').css("display", "block");
+				$("#login-active").attr("style", "margin-top:-193px;")
+			})
+		</script>
+  	</head>
+  	<body>
+		 <div id="login-pre">
+			<a id="loginhtml_a" href="#"  title="login" onmousedown="activateLogin()">LOG IN</a> 
+			<script type="text/javascript">
+				if(foundCookie){
+				var d = document.getElementById('loginhtml_a');
+				
+				d.innerHTML = "Log out";
+				d.title = "Close login window";
+				d.href = "/wapps/sso/logout.html"
+				}
+			</script>
+		</div>
+		<div id="login-active" style="margin-top: -42px;">
+			<div class="loginForm">
+				<span>
+					<a class="close-login" onmousedown="deactivateLogin()" title="Close login window">X</a>
+				</span>
+				<p class="loginP">LOG IN</p>
+				
+				<form id="loginForm_new" method="post" action="https://www.redhat.com/wapps/sso/login.html">
+				
+					<div>
+						<input type="text" class="search-field" name="username" value="User name">
+					    <input type="password" class="search-field" name="password" value="Password: ">
+					</div>
+				    <p class="first">     
+			        	<a class="arrow" href="/wapps/ugc/register.html" target="_blank" title="">Register</a>
+					</p>
+					<div>
+						<div id="forgotPasswdWrapper">								        	
+					        <a class="arrow" href="/wapps/sso/lostPassword.html" target="_blank" title="">Forgot password?</a>
+				      	</div>
+				      	<div id="submitBtnWrapper">  
+					        <input type="hidden" name="_flowId" value="legacy-login-flow">
+					        <input type="hidden" name="redirect" value="http://www.redhat.com/">
+					        <input type="hidden" name="failureRedirect" value="http://www.redhat.com/wapps/sso/login.html">
+				         	<input type="hidden" name="_eventId_submit" value="Log In">
+				         	<input type="submit" name="login-submit" value="SUBMIT" onclick="submitLogin()">
+						</div>
+					</div>					 
+				</form>
+	 		</div>
+		</div>
+		<div id="main">
+			<p> This is a test page to create a small login form in upper right corner of page, extracting the essentials from redhat.com </p>
+		</div>
+	</body>
+</html>
