@@ -22,3 +22,7 @@ If you're migrating from Capybara 1.x, try:
 
 Details here: http://www.elabs.se/blog/60-introducing-capybara-2-1
 
+rake cucumber
+rails generate model movie showtime_date:date showtime_time:time
+rake db:migrate
+rake db:test:prepare
