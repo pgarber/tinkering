@@ -11,6 +11,13 @@
  *= require_self
  *= require_tree .
  */
+
+/* 
+Kehoe suggest putthing this in framework_and_override.css.scss instead
+*/
+@import "bootstrap"; 
+
+
 header nav ul {
   list-style: none;
   margin: 0 0 2em;
